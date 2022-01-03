@@ -1,17 +1,18 @@
-import React from 'react';
+import * as React from 'react'
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import {getElement, setJsonForFlux} from "@focuson/state";
+import {Counter, TwoCounter} from "./Counter";
+import {CounterData, TwoCounterData} from "./domain";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+let oneCounterElement = getElement("oneCounter");
+let twoCounterElement = getElement("twoCounter");
+
+
+let setJson1 = setJsonForFlux<CounterData, void>('counter', s => (ReactDOM.render(<Counter state={s}/>, oneCounterElement)))
+
+let setJson2 = setJsonForFlux<TwoCounterData, void>('twoCounter', s => (ReactDOM.render(<TwoCounter state={s}/>, twoCounterElement)))
+
+setJson1({value: 0})
+setJson2({counterOne: {value: 0}, counterTwo: {value: 0}})
